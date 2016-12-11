@@ -3,7 +3,8 @@ from constants import BLOCK, BLINKER, RPENTOMINO
 
 
 def main():
-    game = GameOfLife(RPENTOMINO, board_size=(1000, 1000), shift=30)
+    b = 1000
+    game = GameOfLife(RPENTOMINO, board_size=(b, b), shift=b // 2)
     game.play()
 
 

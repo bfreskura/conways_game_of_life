@@ -1,4 +1,5 @@
 import time
+import os
 
 from constants import ALIVE, DEAD
 
@@ -8,7 +9,7 @@ class GameOfLife:
         """
         :param pattern: Seed pattern (list of (x,y) coordinates)
         :param board_size: Tuple of x and y dimensions
-        :param shift:
+        :param shift: Amount of positional shift applied to the pattern
         """
         self.board_size_x = board_size[0]
         self.board_size_y = board_size[1]
@@ -20,12 +21,15 @@ class GameOfLife:
 
     def update(self, frequency=1):
         """
-
+        One iteration of the game. Applies the rules of the game to the cells.
         :param frequency: Update frequency in seconds
-        :return:
         """
         change = []
-        max_x, max_y, min_x, min_y = self.find_limits(1)
+
+        # Find the subboard which has the potential to be updated. This
+        # procedure is used because an update would be to expensive if it is
+        # done on the whole board (this applies for larger boards mostly).
+        max_x, max_y, min_x, min_y = self.find_limits(2)
 
         for x in range(min_x, max_x):
             for y in range(min_y, max_y):
@@ -38,6 +42,12 @@ class GameOfLife:
         time.sleep(frequency)
 
     def apply_rules(self, x, y):
+        """
+        Applies 4 rules of the game to the current cell
+        :param x: X coordinate of the cell
+        :param y: Y coordinate of the cell
+        :return: (x coordinate, y coordinate, cell_value) tuple
+        """
         neigh = [(0, 1), (1, 0), (0, -1), (-1, 0), (1, 1), (-1, -1), (1, -1),
                  (-1, 1)]
 
@@ -68,6 +78,8 @@ class GameOfLife:
     def find_limits(self, padding=1):
         """
         Searches for an active area of board with some padding
+        Active are is defined as a minimum possible area of the board which
+        contains all the active cells plus some padding.
         :return: Minimum and maximum coordinates of an active area
         """
         max_x, max_y = 0, 0
@@ -96,11 +108,12 @@ class GameOfLife:
         new_board = [[self.board[x][y] for y in range(min_y, max_y)] for x in
                      range(min_x, max_x)]
 
+        os.system('clear')
         [print(' '.join(row)) for row in new_board]
         print("= " * len(new_board[0]))
 
     def play(self):
         iteration = 0
         while True:
-            self.update(frequency=0.5)
+            self.update(frequency=0.2)
             iteration += 1
