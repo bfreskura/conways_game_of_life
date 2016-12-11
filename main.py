@@ -1,9 +1,11 @@
 from game import GameOfLife
+from constants import BLOCK, BLINKER, RPENTOMINO
+
 
 def main():
-    pattern = [(20, 20),(20, 21), (20, 22), (20, 23), (20, 24), (20, 25)]
-    game = GameOfLife(pattern)
+    game = GameOfLife(RPENTOMINO, board_size=(1000, 1000), shift=30)
     game.play()
 
+
 if __name__ == "__main__":
-   main()
+    main()
