@@ -7,4 +7,20 @@ The universe of the Game of Life is an infinite two-dimensional orthogonal grid 
 * Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 * Any dead cell with exactly three live neighbours will come to life.
 
-The initial pattern constitutes the 'seed' of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths happen simultaneously, and the discrete moment at which this happens is sometimes called a tick. (In other words, each generation is a pure function of the one before.) The rules continue to be applied repeatedly to create further generations.
+The initial pattern constitutes the 'seed' of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed — births and deaths happen simultaneously, and the discrete moment at which this happens is sometimes called a tick. (In other words, each generation is a pure function of the one before.) The rules continue to be applied repeatedly to create further generationsfe
+
+## Requirements
+* Python3
+
+## Adding custom seeds
+To add a custom seed open `constants.py` and add a new seed constant with starting coordinates. E.g.:
+`MY_SEED = [(1, 0), (2, 0), (1, 1), (1, 2), (0, 1)]`
+
+
+In `main.py` you can then import the constant and use it as a starting seed of the game like this:
+```
+from constants import MY_SEED
+...
+game = GameOfLife(MY_SEED, board_size=(b, b), shift=b // 2)
+...
+```
